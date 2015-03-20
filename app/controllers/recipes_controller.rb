@@ -14,15 +14,19 @@ class RecipesController < ApplicationController
   # GET /recipes/new
   def new
     @recipe = Recipe.new
+    authorize @recipe
   end
 
   # GET /recipes/1/edit
   def edit
+    authorize @recipe
   end
 
   # POST /recipes
   def create
     @recipe = Recipe.new(recipe_params)
+    authorize @recipe
+
     @recipe.users << current_user unless current_user.nil?
 
     if @recipe.save
@@ -34,6 +38,7 @@ class RecipesController < ApplicationController
 
   # PATCH/PUT /recipes/1
   def update
+    authorize @recipe
     @recipe.users << current_user unless @recipe.users.include?(current_user) || current_user.nil?
     if @recipe.update(recipe_params)
       redirect_to @recipe, notice: 'Recipe was successfully updated.'
@@ -44,6 +49,7 @@ class RecipesController < ApplicationController
 
   # DELETE /recipes/1
   def destroy
+    authorize @recipe
     @recipe.destroy
     redirect_to recipes_url, notice: 'Recipe was successfully destroyed.'
   end
