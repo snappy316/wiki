@@ -1,7 +1,7 @@
 require "test_helper"
 
-feature "SignIn" do
-  scenario "can sign in" do
+feature "Sign In" do
+  scenario "user can sign in" do
     visit new_user_session_path
     fill_in("Email", with: users(:editor).email)
     fill_in("Password", with: "password")
