@@ -8,6 +8,7 @@ class RecipesController < ApplicationController
 
   # GET /recipes/1
   def show
+    @users = @recipe.users.all
   end
 
   # GET /recipes/new
@@ -22,6 +23,7 @@ class RecipesController < ApplicationController
   # POST /recipes
   def create
     @recipe = Recipe.new(recipe_params)
+    @recipe.users << current_user
 
     if @recipe.save
       redirect_to @recipe, notice: 'Recipe was successfully created.'
@@ -32,6 +34,7 @@ class RecipesController < ApplicationController
 
   # PATCH/PUT /recipes/1
   def update
+    @recipe.users << current_user unless @recipe.users.include?(current_user)
     if @recipe.update(recipe_params)
       redirect_to @recipe, notice: 'Recipe was successfully updated.'
     else
